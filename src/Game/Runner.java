@@ -2,6 +2,7 @@ package Game;
 
 import People.Person;
 import Rooms.Room;
+import Rooms.TPRoom;
 import Rooms.WinningRoom;
 
 import java.util.Scanner;
@@ -10,10 +11,14 @@ public class Runner {
 	
 
 	private static boolean gameOn = true;
-	
+
+	//sets up building and player1 outside of scope so teleport() can access them
+	public static Room[][] building = new Room[5][5];
+
+	public static Person player1 = new Person("FirstName", "FamilyName", 0,0);
+
 	public static void main(String[] args)
 	{
-		Room[][] building = new Room[5][5];
 		
 		//Fill the building with normal rooms
 		for (int x = 0; x<building.length; x++)
@@ -24,13 +29,19 @@ public class Runner {
 			}
 		}
 		
+		//Create 1~5 TP room.
+		for (int i = 0; i < (int)(Math.random()*6);i++) {
+			int x = (int) (Math.random() * building.length);
+			int y = (int) (Math.random() * building.length);
+			building[x][y] = new TPRoom(x, y);
+		}
+
 		//Create a random winning room.
 		int x = (int)(Math.random()*building.length);
 		int y = (int)(Math.random()*building.length);
 		building[x][y] = new WinningRoom(x, y);
-		 
-		 //Setup player 1 and the input scanner
-		Person player1 = new Person("FirstName", "FamilyName", 0,0);
+
+		 //Puts player into default room
 		building[0][0].enterRoom(player1);
 		Scanner in = new Scanner(System.in);
 		while(gameOn)
@@ -118,7 +129,9 @@ public class Runner {
 	{
 		gameOn = false;
 	}
-	
 
-
+	public static void teleport(int x, int y){
+		building[x][y].leaveRoom(player1);
+		building[(int)(Math.random() * building.length)][(int)(Math.random() * building.length)].enterRoom(player1);
+	}
 }

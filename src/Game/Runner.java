@@ -12,43 +12,66 @@ public class Runner {
 
 	private static boolean gameOn = true;
 
-	//sets up building and player1 outside of scope so teleport() can access them
-	public static Room[][] building = new Room[5][5];
-
-	public static Person player1 = new Person("FirstName", "FamilyName", 0,0);
+	//sets up board and player1 outside of scope so teleport() can access them
+	public static Room[][] board;
+	public static Person player1;
+	public static int fragCounter;
+	public static int hp;
 
 	public static void main(String[] args)
 	{
-		
-		//Fill the building with normal rooms
-		for (int x = 0; x<building.length; x++)
+		System.out.println("You are an adventurer on a quest to cleanse a nearby forest of a goblin infestation. Depending on the difficulty, you must slain a certain amount of goblins in order to win.");
+		System.out.println("You may type leave to end the game whenever.");
+		System.out.println("What is your name?");
+		Scanner in = new Scanner(System.in);
+		String name = in.nextLine();
+		player1 = new Person(name,0,0);
+
+		System.out.println("Welcome, " + name + ". What difficulty would you like to play in? (easy/medium/hard)");
+		String input;
+		int difficulty;
+		while(true){
+			input = in.nextLine().toLowerCase().trim(); 
+			if(input.equals("easy")){
+				difficulty = 1;
+				break;
+			} else if(input.equals("medium")) {
+				difficulty = 2;
+				break;
+			} else if(input.equals("hard")){
+				difficulty = 3;
+				break;
+			} else {
+				System.out.println("Please select a difficulty. (easy/medium/hard) ");
+			}
+		}
+
+		//sets up size of the board depending on difficulty;
+		board = new Room[difficulty*4][difficulty*4];
+		//Fill the board with normal rooms
+		for (int x = 0; x<board.length; x++)
 		{
-			for (int y = 0; y < building[x].length; y++)
+			for (int y = 0; y < board[x].length; y++)
 			{
-				building[x][y] = new Room(x,y);
+				board[x][y] = new Room(x,y);
 			}
 		}
 		
-		//Create 1~5 TP room.
-		for (int i = 0; i < (int)(Math.random()*6);i++) {
-			int x = (int) (Math.random() * building.length);
-			int y = (int) (Math.random() * building.length);
-			building[x][y] = new TPRoom(x, y);
+		//Create 1~3 TP room depending on difficulty.
+		for (int i = 0; i < (int)(Math.random()*difficulty);i++) {
+			int x = (int) (Math.random() * board.length);
+			int y = (int) (Math.random() * board.length);
+			board[x][y] = new TPRoom(x, y);
 		}
 
-		//Create a random winning room.
-		int x = (int)(Math.random()*building.length);
-		int y = (int)(Math.random()*building.length);
-		building[x][y] = new WinningRoom(x, y);
-
 		 //Puts player into default room
-		building[0][0].enterRoom(player1);
-		Scanner in = new Scanner(System.in);
+		board[0][0].enterRoom(player1);
+
 		while(gameOn)
 		{
 			System.out.println("Where would you like to move? (Choose N, S, E, W)");
 			String move = in.nextLine();
-			if(validMove(move, player1, building))
+			if(validMove(move, player1, board))
 			{
 				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				
@@ -119,6 +142,15 @@ public class Runner {
 				{
 					return false;
 				}
+			case "leave":
+				{
+					gameOff();
+				}
+			case "status":
+				{
+					System.out.println("HP: " + hp);
+					System.out.println("Frag Count: " + fragCounter);
+				}
 			default:
 				break;
 					
@@ -131,7 +163,7 @@ public class Runner {
 	}
 
 	public static void teleport(int x, int y){
-		building[x][y].leaveRoom(player1);
-		building[(int)(Math.random() * building.length)][(int)(Math.random() * building.length)].enterRoom(player1);
+		board[x][y].leaveRoom(player1);
+		board[(int)(Math.random() * board.length)][(int)(Math.random() * board.length)].enterRoom(player1);
 	}
 }

@@ -13,7 +13,7 @@ public class TPRoom extends Room{
 	}
 
 	/**
-	 * Method controls the results when a person enters this room.
+	 * When player enters the room, runs teleport method in the runner to randomize x and y coordinates.
 	 * @param x the Person entering
 	 */
 	public void enterRoom(Person x)

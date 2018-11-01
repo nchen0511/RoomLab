@@ -18,7 +18,7 @@ public class TPRoom extends Room{
 	 */
 	public void enterRoom(Person x)
 	{
-		System.out.println("You run into a wizard. He teleports you into a random room.");
+		System.out.println("You run into a wizard. He teleports you into a random location.");
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
@@ -32,6 +32,10 @@ public class TPRoom extends Room{
 	public void leaveRoom(Person x)
 	{
 		occupant = null;
+	}
+
+	public String toString(){
+		return "T";
 	}
 	
 }

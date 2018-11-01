@@ -12,11 +12,13 @@ public class Runner {
 
 	private static boolean gameOn = true;
 
-	//sets up board and player1 outside of scope so teleport() can access them
+	//sets up board and player1 outside of scope so other methods can access them
 	public static Room[][] board;
 	public static Person player1;
 	public static int fragCounter;
 	public static int hp;
+	public static String[][] fullMap;
+	public static String fowMap = "";
 
 	public static void main(String[] args)
 	{
@@ -58,26 +60,42 @@ public class Runner {
 		}
 		
 		//Create 1~3 TP room depending on difficulty.
-		for (int i = 0; i < (int)(Math.random()*difficulty);i++) {
+		for (int i = 0; i < difficulty;i++) {
 			int x = (int) (Math.random() * board.length);
 			int y = (int) (Math.random() * board.length);
 			board[x][y] = new TPRoom(x, y);
 		}
+
+		fullMap = new String[board.length][board[0].length];
+		//Sets up fullMap and fowMap
+		for(int i=0;i<board.length;i++){
+			for(int n=0;n<board[i].length;n++){
+				fullMap[i][n] = board[i][n].toString();
+			}
+		}
+
+		for(int i=0;i<board.length;i++){
+			for(int n=0;n<board[i].length;n++){
+				fowMap+= "[" + fullMap[i][n] + "]";
+			}
+			fowMap+="\n";
+		}
+		fowMap += "Key: N = Nothing, T = Teleport";
 
 		 //Puts player into default room
 		board[0][0].enterRoom(player1);
 
 		while(gameOn)
 		{
-			System.out.println("Where would you like to move? (Choose N, S, E, W)");
+			System.out.println("What would you like to do? (N, S, E, W, status, map, scout)");
 			String move = in.nextLine();
 			if(validMove(move, player1, board))
 			{
-				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+			//	System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				
 			}
 			else {
-				System.out.println("Please choose a valid move.");
+				System.out.println("Please choose a valid option.");
 			}
 			
 			
@@ -145,11 +163,18 @@ public class Runner {
 			case "leave":
 				{
 					gameOff();
+					return true;
 				}
 			case "status":
 				{
 					System.out.println("HP: " + hp);
 					System.out.println("Frag Count: " + fragCounter);
+					return true;
+				}
+			case "map":
+				{
+					getMap();
+					return true;
 				}
 			default:
 				break;
@@ -165,5 +190,9 @@ public class Runner {
 	public static void teleport(int x, int y){
 		board[x][y].leaveRoom(player1);
 		board[(int)(Math.random() * board.length)][(int)(Math.random() * board.length)].enterRoom(player1);
+	}
+
+	public static void getMap(){
+		System.out.println(fowMap);
 	}
 }

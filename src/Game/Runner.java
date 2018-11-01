@@ -18,6 +18,7 @@ public class Runner {
 	public static int fragCounter;
 	public static int hp;
 	public static String[][] fullMap;
+	public static boolean[][] shownLoc;
 	public static String fowMap = "";
 
 	public static void main(String[] args)
@@ -67,20 +68,23 @@ public class Runner {
 		}
 
 		fullMap = new String[board.length][board[0].length];
-		//Sets up fullMap and fowMap
+		shownLoc = new boolean[board.length][board[0].length];
+		//Sets up fullMap, shownLoc, and fowMap
 		for(int i=0;i<board.length;i++){
 			for(int n=0;n<board[i].length;n++){
 				fullMap[i][n] = board[i][n].toString();
+				shownLoc[i][n] = false;
 			}
 		}
 
 		for(int i=0;i<board.length;i++){
 			for(int n=0;n<board[i].length;n++){
-				fowMap+= "[" + fullMap[i][n] + "]";
+				fowMap+= "[ ]";
 			}
 			fowMap+="\n";
 		}
-		fowMap += "Key: N = Nothing, T = Teleport";
+		updateMap();
+
 
 		 //Puts player into default room
 		board[0][0].enterRoom(player1);
@@ -92,10 +96,10 @@ public class Runner {
 			if(validMove(move, player1, board))
 			{
 			//	System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-				
+				updateMap();
 			}
 			else {
-				System.out.println("Please choose a valid option.");
+				System.out.println("You can't do that! Please choose a valid option.");
 			}
 			
 			
@@ -178,7 +182,6 @@ public class Runner {
 				}
 			default:
 				break;
-					
 		}
 		return true;
 	}
@@ -192,6 +195,71 @@ public class Runner {
 		board[(int)(Math.random() * board.length)][(int)(Math.random() * board.length)].enterRoom(player1);
 	}
 
+	public static void scout(){
+	    int x = player1.getxLoc();
+	    int y = player1.getyLoc();
+
+	    //shows the 8 area around the player on the map, and the location the player is in
+	    if(x-1>-1&&y+1>-1) {
+            shownLoc[x-1][y+1] = true;
+        }
+
+ 	    if(y+1>-1) {
+            shownLoc[x][y+1] = true;
+        }
+
+ 	    if(x+1<board[0].length-1&&y+1>-1) {
+            shownLoc[x+1][y+1] = true;
+        }
+
+ 	    if(x-1>-1) {
+            shownLoc[x-1][y] = true;
+        }
+
+        shownLoc[x][y] = true;
+
+ 	    if(x+1<board[0].length) {
+            shownLoc[x+1][y] = true;
+        }
+
+        if(x-1>-1&&y-1>-1) {
+            shownLoc[x-1][y-1] = true;
+        }
+
+        if(y-1>-1) {
+            shownLoc[x][y-1] = true;
+        }
+
+        if(x+1<board[0].length-1&&y-1>-1) {
+            shownLoc[x+1][y-1] = true;
+        }
+
+        //updates map then displays map;
+        updateMap();
+ 	    getMap();
+
+    }
+
+    public static void updateMap(){
+	    fowMap = "";
+
+        for(int i=0;i<board.length;i++){
+            for(int n=0;n<board[i].length;n++){
+                if(i==player1.getxLoc()&&n==player1.getyLoc()) {
+                    fowMap += "[O]";
+                } else {
+                    if (shownLoc[i][n]) {
+                        fowMap += "[" + fullMap[i][n] + "]";
+                    } else {
+                        fowMap += "[ ]";
+                    }
+                }
+            }
+            fowMap+="\n";
+        }
+
+        fowMap += "Key: O = You, N = Nothing, T = Teleport";
+    }
 	public static void getMap(){
 		System.out.println(fowMap);
 	}

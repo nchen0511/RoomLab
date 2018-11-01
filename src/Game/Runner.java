@@ -180,6 +180,10 @@ public class Runner {
 					getMap();
 					return true;
 				}
+			case "scout":
+				{
+					scout();
+				}
 			default:
 				break;
 		}
@@ -230,7 +234,7 @@ public class Runner {
             shownLoc[x][y-1] = true;
         }
 
-        if(x+1<board[0].length-1&&y-1>-1) {
+        if(x+1<board[0].length-1&&y-1<board[0].length) {
             shownLoc[x+1][y-1] = true;
         }
 

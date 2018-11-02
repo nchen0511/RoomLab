@@ -5,6 +5,7 @@ import People.Person;
 public class Room {
 	Person occupant;
 	int xLoc,yLoc;
+	boolean shown = false;
 
 	public Room(int x, int y)
 	{
@@ -22,6 +23,7 @@ public class Room {
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
+		shown = true;
 	}
 
 	/**
@@ -33,7 +35,19 @@ public class Room {
 		occupant = null;
 	}
 
+	public void show(){
+		this.shown = true;
+	}
+
 	public String toString(){
-		return "N";
+		if(shown) {
+			if(occupant==null) {
+				return "N";
+			} else {
+				return "O";
+			}
+		} else {
+			return " ";
+		}
 	}
 }

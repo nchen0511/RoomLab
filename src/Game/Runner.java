@@ -27,10 +27,9 @@ public class Runner {
 		System.out.println("You may type leave to end the game whenever.");
 		System.out.println("What is your name?");
 		Scanner in = new Scanner(System.in);
-		String name = in.nextLine();
-		player1 = new Person(name,0,0);
+		player1 = new Person(0,0);
 
-		System.out.println("Welcome, " + name + ". What difficulty would you like to play in? (easy/medium/hard)");
+		System.out.println("Welcome, what difficulty would you like to play in? (easy/medium/hard)");
 		String input;
 		int difficulty;
 		while(true){
@@ -67,35 +66,18 @@ public class Runner {
 			board[x][y] = new TPRoom(x, y);
 		}
 
-		fullMap = new String[board.length][board[0].length];
-		shownLoc = new boolean[board.length][board[0].length];
-		//Sets up fullMap, shownLoc, and fowMap
-		for(int i=0;i<board.length;i++){
-			for(int n=0;n<board[i].length;n++){
-				fullMap[i][n] = board[i][n].toString();
-				shownLoc[i][n] = false;
-			}
-		}
-
-		for(int i=0;i<board.length;i++){
-			for(int n=0;n<board[i].length;n++){
-				fowMap+= "[ ]";
-			}
-			fowMap+="\n";
-		}
-		updateMap();
-
-
 		 //Puts player into default room
-		board[0][0].enterRoom(player1);
+		System.out.println("You enter the forest...");
+		board[1][1].enterRoom(player1);
+		updateMap();
 
 		while(gameOn)
 		{
-			System.out.println("What would you like to do? (N, S, E, W, status, map, scout)");
+			System.out.println("What would you like to do? (W, A, S, D, status, map, scout)");
 			String move = in.nextLine();
 			if(validMove(move, player1, board))
 			{
-			//	System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				updateMap();
 			}
 			else {
@@ -118,7 +100,7 @@ public class Runner {
 	{
 		move = move.toLowerCase().trim();
 		switch (move) {
-			case "n":
+			case "w":
 				if (p.getxLoc() > 0)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
@@ -129,7 +111,7 @@ public class Runner {
 				{
 					return false;
 				}
-			case "e":
+			case "d":
 				if (p.getyLoc()< map[p.getyLoc()].length -1)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
@@ -153,7 +135,7 @@ public class Runner {
 					return false;
 				}
 
-			case "w":
+			case "a":
 				if (p.getyLoc() > 0)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
@@ -195,53 +177,52 @@ public class Runner {
 	}
 
 	public static void teleport(int x, int y){
-		board[x][y].leaveRoom(player1);
 		board[(int)(Math.random() * board.length)][(int)(Math.random() * board.length)].enterRoom(player1);
+		updateMap();
 	}
 
 	public static void scout(){
 	    int x = player1.getxLoc();
 	    int y = player1.getyLoc();
 
-	    //shows the 8 area around the player on the map, and the location the player is in
-	    if(x-1>-1&&y+1>-1) {
-            shownLoc[x-1][y+1] = true;
-        }
-
- 	    if(y+1>-1) {
-            shownLoc[x][y+1] = true;
-        }
-
- 	    if(x+1<board[0].length-1&&y+1>-1) {
-            shownLoc[x+1][y+1] = true;
-        }
-
- 	    if(x-1>-1) {
-            shownLoc[x-1][y] = true;
-        }
-
-        shownLoc[x][y] = true;
-
- 	    if(x+1<board[0].length) {
-            shownLoc[x+1][y] = true;
-        }
-
-        if(x-1>-1&&y-1>-1) {
-            shownLoc[x-1][y-1] = true;
-        }
-
-        if(y-1>-1) {
-            shownLoc[x][y-1] = true;
-        }
-
-        if(x+1<board[0].length-1&&y-1<board[0].length) {
-            shownLoc[x+1][y-1] = true;
-        }
+	    //shows the 8 areas around the player on the map
+		try {
+			board[x - 1][y - 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x - 1][y].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x - 1][y + 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x][y - 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x][y + 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x + 1][y - 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x + 1][y].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			board[x + 1][y + 1].show();
+		} catch (IndexOutOfBoundsException e) {
+		}
 
         //updates map then displays map;
         updateMap();
  	    getMap();
-
+		System.out.println("You scout the area...");
     }
 
     public static void updateMap(){
@@ -249,15 +230,7 @@ public class Runner {
 
         for(int i=0;i<board.length;i++){
             for(int n=0;n<board[i].length;n++){
-                if(i==player1.getxLoc()&&n==player1.getyLoc()) {
-                    fowMap += "[O]";
-                } else {
-                    if (shownLoc[i][n]) {
-                        fowMap += "[" + fullMap[i][n] + "]";
-                    } else {
-                        fowMap += "[ ]";
-                    }
-                }
+            	fowMap += "[" + board[i][n] + "]";
             }
             fowMap+="\n";
         }

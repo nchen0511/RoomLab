@@ -6,6 +6,7 @@ import Game.Runner;
 public class TPRoom extends Room{
 	Person occupant;
 	int xLoc,yLoc;
+	boolean shown = false;
 
 	public TPRoom(int x, int y)
 	{
@@ -22,6 +23,8 @@ public class TPRoom extends Room{
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
+		shown = true;
+		leaveRoom(x);
 		Runner.teleport(this.xLoc,this.yLoc);
 	}
 
@@ -34,8 +37,20 @@ public class TPRoom extends Room{
 		occupant = null;
 	}
 
+	public void show(){
+		this.shown = true;
+	}
+
 	public String toString(){
-		return "T";
+		if(shown) {
+			if(occupant==null) {
+				return "T";
+			} else {
+				return "O";
+			}
+		} else {
+			return " ";
+		}
 	}
 	
 }

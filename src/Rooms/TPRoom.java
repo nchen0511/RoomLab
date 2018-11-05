@@ -25,8 +25,7 @@ public class TPRoom extends Room{
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
 		shown = true;
-		leaveRoom(x);
-		Runner.teleport();
+		Runner.teleport(this.xLoc,this.yLoc);
 	}
 
 	/**

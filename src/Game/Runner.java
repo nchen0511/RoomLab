@@ -135,7 +135,7 @@ public class Runner {
 			String move = in.nextLine();
 			if(validMove(move, player1, board.room))
 			{
-				//System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				updateMap();
 			}
 			else {
@@ -234,8 +234,9 @@ public class Runner {
 		gameOn = false;
 	}
 
-	public static void teleport(){
-		board.room[(int)(Math.random() * board.room.length)][(int)(Math.random() * board.room.length)].enterRoom(player1);
+	public static void teleport(int x, int y){
+		board.room[y][x].leaveRoom(player1);
+		board.room[(int)(Math.random() * board.room.length)][(int)(Math.random() * board.room[0].length)].enterRoom(player1);
 		updateMap();
 	}
 

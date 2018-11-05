@@ -2,31 +2,30 @@
 package Rooms;
 
 import People.Person;
-import Game.Runner;
 
-public class TPRoom extends Room{
+public class AmbushRoom extends Room {
 	Person occupant;
 	int xLoc,yLoc;
 	boolean shown = false;
 
-	public TPRoom(int x, int y)
+	public AmbushRoom(int x, int y)
 	{
 		super(x,y);
 	}
 
 	/**
-	 * When player enters the room, runs teleport method in the runner to randomize x and y coordinates.
+	 * Method controls the results when a person enters this room.
 	 * @param x the Person entering
 	 */
 	public void enterRoom(Person x)
 	{
-		System.out.println("You run into a wizard. He teleports you into a random location.");
+		int random = (int)(Math.random()*3)+1;
+		System.out.println("You walk into an ambush! A group of small goblins attack you and you lost " + random + " HP.");
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
 		shown = true;
-		leaveRoom(x);
-		Runner.teleport();
+		x.setHP(x.getHP()-random);
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class TPRoom extends Room{
 	public String toString(){
 		if(shown) {
 			if(occupant==null) {
-				return "T";
+				return "Z";
 			} else {
 				return "O";
 			}
@@ -53,5 +52,4 @@ public class TPRoom extends Room{
 			return " ";
 		}
 	}
-	
 }

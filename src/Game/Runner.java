@@ -135,7 +135,7 @@ public class Runner {
 			String move = in.nextLine();
 			if(validMove(move, player1, board.room))
 			{
-				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
+				//System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				updateMap();
 			}
 			else {

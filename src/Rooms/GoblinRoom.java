@@ -4,26 +4,25 @@ package Rooms;
 import Game.Runner;
 import People.Person;
 
-public class AmbushRoom extends Room {
+public class GoblinRoom extends Room{
 
-	public AmbushRoom(int x, int y)
+	public GoblinRoom(int x, int y)
 	{
 		super(x,y);
 	}
 
 	/**
-	 * Person entering the room will lose a random amount of HP.
+	 * When player enters the room, increases person's frag count by 1.
 	 * @param x the Person entering
 	 */
 	public void enterRoom(Person x)
 	{
-		int random = (int)(Math.random()*3)+1;
-		System.out.println("You walk into an ambush! A group of small goblins attack you and you lost " + random + " HP.");
+		System.out.println("You run into a goblin and eliminate it with no problem.");
 		occupant = x;
+		x.setFrag(x.getFrag()+1);
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
 		shown = true;
-		x.setHP(x.getHP()-random);
 		Runner.normalize(this.xLoc,this.yLoc,x);
 	}
 
@@ -43,7 +42,7 @@ public class AmbushRoom extends Room {
 	public String toString(){
 		if(shown) {
 			if(occupant==null) {
-				return "Z";
+				return "G";
 			} else {
 				return "O";
 			}

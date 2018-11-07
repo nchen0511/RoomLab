@@ -14,6 +14,14 @@ public class Room {
 		yLoc = y;
 	}
 
+	public Room(int x, int y, Person p)
+	{
+		xLoc = x;
+		yLoc = y;
+		occupant = p;
+		shown = true;
+	}
+
 	/**
 	 * Method controls the results when a person enters this room.
 	 * @param x the Person entering

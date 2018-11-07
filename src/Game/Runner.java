@@ -2,10 +2,7 @@
 package Game;
 
 import People.Person;
-import Rooms.AmbushRoom;
-import Rooms.Room;
-import Rooms.TPRoom;
-import Rooms.Board;
+import Rooms.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -18,7 +15,6 @@ public class Runner {
 	//sets up board and player1 outside of main so other methods can access them
 	public static Board board;
 	public static Person player1;
-	public static int fragCounter;
 	public static int goal;
 
 	public static String fowMap = "";
@@ -28,7 +24,6 @@ public class Runner {
 		System.out.println("You are an adventurer on a quest to cleanse a nearby forest of a goblin infestation. Depending on the difficulty, you must slain a certain amount of goblins in order to win.");
 		System.out.println("You may type leave to end the game whenever.");
 		Scanner in = new Scanner(System.in);
-		player1 = new Person(0,0, 10);
 
 		System.out.println("Welcome, what difficulty would you like to play in? (easy/medium/hard/custom)");
 		String input;
@@ -106,6 +101,15 @@ public class Runner {
 			}
 		}
 
+		//Fill the board.room with goblin rooms
+		for (int x = 0; x<board.room.length; x++)
+		{
+			for (int y = 0; y < board.room[x].length; y++)
+			{
+				board.room[x][y] = new GoblinRoom(x,y);
+			}
+		}
+
 
 		//Creates ZRoom
 		for (int i = 0; i < (int)(area*.1);i++) {
@@ -125,6 +129,7 @@ public class Runner {
 		//Ensures the starting room is normal
 		board.room[0][0] = new Room(0,0);
 
+        player1 = new Person(0,0, (int)(area*.05));
 		 //Puts player into default room
 		System.out.println("You enter the forest...");
 		board.room[0][0].enterRoom(player1);
@@ -214,7 +219,8 @@ public class Runner {
 			case "status":
 				{
 					System.out.println("HP: " + player1.getHP());
-					System.out.println("Frag Count: " + fragCounter + " / " + goal);
+					System.out.println("Frag Count: " + player1.getFrag() + " / " + goal);
+					System.out.println("Scouts: " + player1.getScout());
 					return true;
 				}
 			case "map":
@@ -243,47 +249,53 @@ public class Runner {
 	}
 
 	public static void scout(){
-	    int x = player1.getxLoc();
-	    int y = player1.getyLoc();
+	    if(player1.getScout()>0) {
 
-	    //shows the 8 areas around the player on the map
-		try {
-			board.room[x - 1][y - 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x - 1][y].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x - 1][y + 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x][y - 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x][y + 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x + 1][y - 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x + 1][y].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
-		try {
-			board.room[x + 1][y + 1].show();
-		} catch (IndexOutOfBoundsException e) {
-		}
+            int x = player1.getxLoc();
+            int y = player1.getyLoc();
 
-        //updates map then displays map;
-        updateMap();
- 	    getMap();
-		System.out.println("You scout the area...");
+            //shows the 8 areas around the player on the map
+            try {
+                board.room[x - 1][y - 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x - 1][y].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x - 1][y + 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x][y - 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x][y + 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x + 1][y - 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x + 1][y].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+            try {
+                board.room[x + 1][y + 1].show();
+            } catch (IndexOutOfBoundsException e) {
+            }
+
+            //updates map then displays map;
+            updateMap();
+            getMap();
+            player1.setScout(player1.getScout()-1);
+            System.out.println("You scout the area...");
+        } else {
+            System.out.printf("You are out of scouts!");
+        }
     }
 
     public static void updateMap(){
@@ -301,4 +313,8 @@ public class Runner {
 	public static void getMap(){
 		System.out.println(fowMap);
 	}
+
+	public static void normalize(int x, int y, Person p){
+	    board.room[x][y] = new Room(x,y,p);
+    }
 }

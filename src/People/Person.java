@@ -7,7 +7,9 @@ import Game.Runner;
  * Person represents the player as they move through the game.
  */
 public class Person {
-	int xLoc, yLoc, HP;
+	int xLoc, yLoc, scout;
+	int HP = 10;
+	int frag = 0;
 
 
 	public int getxLoc() {
@@ -33,15 +35,31 @@ public class Person {
 		}
 	}
 
+	public int getScout(){
+		return scout;
+	}
+
+	public void setScout(int scout){
+		this.scout = scout;
+	}
+
+	public int getFrag(){
+		return frag;
+	}
+
+	public void setFrag(int frag){
+		this.frag = frag;
+	}
+
 	public int getHP(){
 		return HP;
 	}
 
-	public Person (int xLoc, int yLoc, int HP)
+	public Person (int xLoc, int yLoc, int scout)
 	{
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
-		this.HP = HP;
+		this.scout = scout;
 	}
 
 

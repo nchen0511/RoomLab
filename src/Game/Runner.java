@@ -107,25 +107,27 @@ public class Runner {
 		}
 
 
-		//Creates ZRoom (roughly 10% of the board)
-		for (int i = 0; i < (int)(area*.5);i++) {
+		//Creates ZRoom
+		for (int i = 0; i < (int)(area*.1);i++) {
 			int x = (int) (Math.random() * board.room.length);
 			int y = (int) (Math.random() * board.room[0].length);
 			board.room[x][y] = new AmbushRoom(x, y);
 		}
 
 
-		//Create TPRoom (roughly 10% of the board)
-		for (int i = 0; i < (int)(area*.5);i++) {
+		//Create TPRoom
+		for (int i = 0; i < (int)(area*.1);i++) {
 			int x = (int) (Math.random() * board.room.length);
 			int y = (int) (Math.random() * board.room[0].length);
 			board.room[x][y] = new TPRoom(x, y);
 		}
 
+		//Ensures the starting room is normal
+		board.room[0][0] = new Room(0,0);
 
 		 //Puts player into default room
 		System.out.println("You enter the forest...");
-		board.room[1][1].enterRoom(player1);
+		board.room[0][0].enterRoom(player1);
 		updateMap();
 
 
@@ -235,7 +237,7 @@ public class Runner {
 	}
 
 	public static void teleport(int x, int y){
-		board.room[y][x].leaveRoom(player1);
+		board.room[x][y].leaveRoom(player1);
 		board.room[(int)(Math.random() * board.room.length)][(int)(Math.random() * board.room[0].length)].enterRoom(player1);
 		updateMap();
 	}

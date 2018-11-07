@@ -4,9 +4,6 @@ package Rooms;
 import People.Person;
 
 public class AmbushRoom extends Room {
-	Person occupant;
-	int xLoc,yLoc;
-	boolean shown = false;
 
 	public AmbushRoom(int x, int y)
 	{

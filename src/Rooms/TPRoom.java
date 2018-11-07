@@ -5,9 +5,6 @@ import People.Person;
 import Game.Runner;
 
 public class TPRoom extends Room{
-	Person occupant;
-	int xLoc,yLoc;
-	boolean shown = false;
 
 	public TPRoom(int x, int y)
 	{

@@ -129,7 +129,7 @@ public class Runner {
 		//Ensures the starting room is normal
 		board.room[0][0] = new Room(0,0);
 
-        player1 = new Person(0,0, (int)(area*.05)+1);
+        player1 = new Person(0,0, (int)(area*.05)+1,(int)(area*.25)+1);
 		 //Puts player into default room
 		System.out.println("You enter the forest...");
 		board.room[0][0].enterRoom(player1);

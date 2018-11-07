@@ -17,7 +17,12 @@ public class GoblinRoom extends Room{
 	 */
 	public void enterRoom(Person x)
 	{
-		System.out.println("You run into a goblin and eliminate it with no problem.");
+		if(Math.random()>.8){
+			System.out.println("You run into a goblin and eliminate it after some struggling (You lost 1 HP).");
+			x.setHP(x.getHP()-1);
+		} else {
+			System.out.println("You run into a goblin and eliminate it with no problem.");
+		}
 		occupant = x;
 		x.setFrag(x.getFrag()+1);
 		x.setxLoc(this.xLoc);

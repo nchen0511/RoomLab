@@ -129,7 +129,7 @@ public class Runner {
 		//Ensures the starting room is normal
 		board.room[0][0] = new Room(0,0);
 
-        player1 = new Person(0,0, (int)(area*.05));
+        player1 = new Person(0,0, (int)(area*.05)+1);
 		 //Puts player into default room
 		System.out.println("You enter the forest...");
 		board.room[0][0].enterRoom(player1);
@@ -138,7 +138,7 @@ public class Runner {
 
 		while(gameOn)
 		{
-			System.out.println("What would you like to do? (W, A, S, D, status, map, scout)");
+			System.out.println("What would you like to do? (W, A, S, D, status, map, scout, leave)");
 			String move = in.nextLine();
 			if(validMove(move, player1, board.room))
 			{
@@ -240,6 +240,20 @@ public class Runner {
 	public static void gameOff()
 	{
 		gameOn = false;
+		System.out.println("Results: ");
+		if(player1.getFrag()<goal) {
+			if (player1.getHP() < 1) {
+				System.out.println("You did not manage to finish your mission, and the forest remains infested for generations. Hundreds of other adventurers follows your fate...");
+			} else {
+				System.out.println("You did not manage to finish your mission, but at least you made it out alive. Perhaps someone else will finish what you started...");
+			}
+		} else {
+			if (player1.getHP() < 1) {
+				System.out.println("You fall in battle, but you managed to clear the forest of the pests. The forest remains peaceful for decades to come...");
+			} else {
+				System.out.println("You clear out the forest with no problem and head home for your long awaited reward, knowing that the forest remains peaceful for decades to come...");
+			}
+		}
 	}
 
 	public static void teleport(int x, int y){
@@ -294,7 +308,7 @@ public class Runner {
             player1.setScout(player1.getScout()-1);
             System.out.println("You scout the area...");
         } else {
-            System.out.printf("You are out of scouts!");
+            System.out.println("You are out of scouts!");
         }
     }
 

@@ -33,6 +33,10 @@ public class Person {
 		if(HP<1){
 			Runner.gameOff();
 		}
+
+		if(HP>10){
+			this.HP = 10;
+		}
 	}
 
 	public int getScout(){

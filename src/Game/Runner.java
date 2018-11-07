@@ -340,10 +340,18 @@ public class Runner {
 
         fowMap += "Key: O = You, N = Nothing, T = Teleport, Z = Ambush, G = Goblin";
     }
+
+
 	public static void getMap(){
 		System.out.println(fowMap);
 	}
 
+	/**
+	 * Turns a special room that extends room into a normal room with nothing in it
+	 * @param x xLoc of the room
+	 * @param y yLoc of the room
+	 * @param p occupant
+	 */
 	public static void normalize(int x, int y, Person p){
 	    board.room[x][y] = new Room(x,y,p);
     }

@@ -12,12 +12,12 @@ public class GoblinRoom extends Room{
 	}
 
 	/**
-	 * When player enters the room, increases person's frag count by 1.
+	 * When player enters the room, increases person's frag count by 1, around 70% of not taking damage.
 	 * @param x the Person entering
 	 */
 	public void enterRoom(Person x)
 	{
-		if(Math.random()>.8){
+		if(Math.random()>.7){
 			System.out.println("You run into a goblin and eliminate it after some struggling (You lost 1 HP).");
 			x.setHP(x.getHP()-1);
 		} else {

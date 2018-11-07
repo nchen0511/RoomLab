@@ -7,7 +7,7 @@ import Game.Runner;
  * Person represents the player as they move through the game.
  */
 public class Person {
-	int xLoc, yLoc, scout, HP;
+	int xLoc, yLoc, scout, HP, hp;
 	int frag = 0;
 
 
@@ -27,14 +27,14 @@ public class Person {
 		this.yLoc = yLoc;
 	}
 
-	public void setHP(int HP){
-		this.HP = HP;
-		if(HP<1){
+	public void setHP(int hp){
+		this.hp = hp;
+		if(hp<1){
 			Runner.gameOff();
 		}
 
-		if(HP>10){
-			this.HP = 10;
+		if(hp>HP){
+			this.hp = HP;
 		}
 	}
 
@@ -55,6 +55,10 @@ public class Person {
 	}
 
 	public int getHP(){
+		return hp;
+	}
+
+	public int getMaxHP(){
 		return HP;
 	}
 
@@ -64,6 +68,7 @@ public class Person {
 		this.yLoc = yLoc;
 		this.scout = scout;
 		this.HP = HP;
+		this.hp = HP;
 	}
 
 

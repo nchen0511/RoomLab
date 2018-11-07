@@ -12,12 +12,13 @@ public class Runner {
 
 	private static boolean gameOn = true;
 
-	//sets up board and player1 outside of main so other methods can access them
+	//sets up variable outside of main so other methods can access them
 	public static Board board;
 	public static Person player1;
 	public static int goal;
 
 	public static String fowMap = "";
+	public static boolean toggle = false;
 
 	public static void main(String[] args)
 	{
@@ -138,12 +139,15 @@ public class Runner {
 
 		while(gameOn)
 		{
-			System.out.println("What would you like to do? (W, A, S, D, status, map, scout, leave)");
+			System.out.println("What would you like to do? (W, A, S, D, status, map, toggle, scout, leave)");
 			String move = in.nextLine();
 			if(validMove(move, player1, board.room))
 			{
 				//System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
 				updateMap();
+				if(toggle){
+					getMap();
+				}
 			}
 			else {
 				System.out.println("You can't do that! Please choose a valid option.");
@@ -218,7 +222,7 @@ public class Runner {
 				}
 			case "status":
 				{
-					System.out.println("HP: " + player1.getHP());
+					System.out.println("HP: " + player1.getHP() + " / " + player1.getMaxHP());
 					System.out.println("Frag Count: " + player1.getFrag() + " / " + goal);
 					System.out.println("Scouts: " + player1.getScout());
 					return true;
@@ -231,6 +235,18 @@ public class Runner {
 			case "scout":
 				{
 					scout();
+					return true;
+				}
+			case "toggle":
+				{
+					if (toggle) {
+						toggle = false;
+						System.out.println("The map will no longer be displayed after every move.");
+					} else {
+						toggle = true;
+						System.out.println("The map will now be displayed after every move.");
+					}
+					return true;
 				}
 			default:
 				break;
@@ -251,7 +267,7 @@ public class Runner {
 			if (player1.getHP() < 1) {
 				System.out.println("You fall in battle, but you managed to clear the forest of the pests. The forest remains peaceful for decades to come...");
 			} else {
-				System.out.println("You clear out the forest with no problem and head home for your long awaited reward, knowing that the forest remains peaceful for decades to come...");
+				System.out.println("You clear out the forest with no problem and head home for your long awaited reward, knowing that the forest will remain peaceful for decades to come...");
 			}
 		}
 	}
@@ -322,7 +338,7 @@ public class Runner {
             fowMap+="\n";
         }
 
-        fowMap += "Key: O = You, N = Nothing, T = Teleport";
+        fowMap += "Key: O = You, N = Nothing, T = Teleport, Z = Ambush, G = Goblin";
     }
 	public static void getMap(){
 		System.out.println(fowMap);

@@ -16,6 +16,7 @@ public class Runner {
 	public static Board board;
 	public static Person player1;
 	public static int goal;
+	public static int area;
 
 	public static String fowMap = "";
 	public static boolean toggle = false;
@@ -31,7 +32,7 @@ public class Runner {
 		int difficulty;
 		int customX = 0;
 		int customY = 0;
-		int area;
+
 		while(true){
 			input = in.nextLine().toLowerCase().trim(); 
 			if(input.equals("easy")){
@@ -113,7 +114,7 @@ public class Runner {
 
 
 		//Creates ZRoom
-		for (int i = 0; i < (int)(area*.1);i++) {
+		for (int i = 0; i < (int)(area*.2);i++) {
 			int x = (int) (Math.random() * board.room.length);
 			int y = (int) (Math.random() * board.room[0].length);
 			board.room[x][y] = new AmbushRoom(x, y);
@@ -125,6 +126,13 @@ public class Runner {
 			int x = (int) (Math.random() * board.room.length);
 			int y = (int) (Math.random() * board.room[0].length);
 			board.room[x][y] = new TPRoom(x, y);
+		}
+
+		//Create TPRoom
+		for (int i = 0; i < (int)(area*.1);i++) {
+			int x = (int) (Math.random() * board.room.length);
+			int y = (int) (Math.random() * board.room[0].length);
+			board.room[x][y] = new AltarRoom(x, y);
 		}
 
 		//Ensures the starting room is normal
@@ -253,6 +261,10 @@ public class Runner {
 		}
 		return true;
 	}
+
+	/**
+	 * Ends the game and prints out result based on player performance
+	 */
 	public static void gameOff()
 	{
 		gameOn = false;
@@ -272,12 +284,21 @@ public class Runner {
 		}
 	}
 
+
+	/**
+	 * Makes player leave their current room (which will always be a TPRoom) and then enter a random room on the map
+	 * @param x
+	 * @param y
+	 */
 	public static void teleport(int x, int y){
 		board.room[x][y].leaveRoom(player1);
 		board.room[(int)(Math.random() * board.room.length)][(int)(Math.random() * board.room[0].length)].enterRoom(player1);
 		updateMap();
 	}
 
+	/**
+	 * Sets all room's shown variable to true around the player on the map, ignoring those that does not exist with try/catch
+	 */
 	public static void scout(){
 	    if(player1.getScout()>0) {
 
@@ -328,7 +349,10 @@ public class Runner {
         }
     }
 
-    public static void updateMap(){
+	/**
+	 * Clears the fowMap string and adds each room toString to the map based on their boolean variable, shown
+	 */
+	public static void updateMap(){
 	    fowMap = "";
 
         for(int i=0;i<board.room.length;i++){
@@ -338,7 +362,7 @@ public class Runner {
             fowMap+="\n";
         }
 
-        fowMap += "Key: O = You, N = Nothing, T = Teleport, Z = Ambush, G = Goblin";
+        fowMap += "Key: O = You, N = Nothing, T = Teleport, Z = Ambush, G = Goblin, A = Altar, F = Flooded";
     }
 
 
@@ -355,4 +379,18 @@ public class Runner {
 	public static void normalize(int x, int y, Person p){
 	    board.room[x][y] = new Room(x,y,p);
     }
+
+    public static void flood(){
+		int count = 0;
+		for (int i = 0; i < (int)(area*.5);i++) {
+			int x = (int) (Math.random() * board.room.length);
+			int y = (int) (Math.random() * board.room[0].length);
+			if(board.room[x][y] instanceof GoblinRoom){
+				player1.setFrag(player1.getFrag()+1);
+				count++;
+			}
+			board.room[x][y] = new FloodRoom(x, y);
+		}
+		System.out.println(count + " goblins were eliminated by the flood. They will go towards your frag count.");
+	}
 }

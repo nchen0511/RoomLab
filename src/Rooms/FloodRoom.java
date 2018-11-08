@@ -4,27 +4,26 @@ package Rooms;
 import Game.Runner;
 import People.Person;
 
-public class AmbushRoom extends Room {
+public class FloodRoom extends Room {
 
-	public AmbushRoom(int x, int y)
+	public FloodRoom(int x, int y)
 	{
 		super(x,y);
 	}
 
 	/**
-	 * Person entering the room will lose a random amount of HP (up to around 20% of max hp, at least 1).
+	 * Person entering the flooded room will lose 25% of current HP (at least 1).
 	 * @param x the Person entering
 	 */
 	public void enterRoom(Person x)
 	{
-		int random = (int)(Math.random()*x.getMaxHP())+1;
-		System.out.println("You walk into an ambush! A group of small goblins attack you and you lost " + random + " HP.");
+		int hp = (int)(x.getHP()*.25)+1;
+		System.out.println("This area is flooded! You trip and lose " + hp + " HP.");
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);
 		shown = true;
-		x.setHP(x.getHP()-random);
-		Runner.normalize(this.xLoc,this.yLoc,x);
+		x.setHP(x.getHP()-hp);
 	}
 
 	/**
@@ -43,7 +42,7 @@ public class AmbushRoom extends Room {
 	public String toString(){
 		if(shown) {
 			if(occupant==null) {
-				return "Z";
+				return "F";
 			} else {
 				return "O";
 			}

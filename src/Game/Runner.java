@@ -422,7 +422,10 @@ public class Runner {
 	    board.room[x][y] = new Room(x,y,p);
     }
 
-    public static void flood(){
+	/**
+	 * Sets random rooms on the board to flood rooms, for each goblin room replaced by flood room, player frag count will go up by one
+	 */
+	public static void flood(){
 		int count = 0;
 		for (int i = 0; i < (int)(area*.35);i++) {
 			int x = (int) (Math.random() * board.room.length);

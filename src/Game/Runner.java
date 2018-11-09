@@ -1,6 +1,7 @@
 //Nick Chen
 package Game;
 
+import Items.Elixir;
 import People.Person;
 import Rooms.*;
 
@@ -143,11 +144,11 @@ public class Runner {
 		System.out.println("You enter the forest...");
 		board.room[0][0].enterRoom(player1);
 		updateMap();
-
+		player1.addItem(new Elixir());
 
 		while(gameOn)
 		{
-			System.out.println("What would you like to do? (W, A, S, D, status, map, toggle, scout, leave)");
+			System.out.println("What would you like to do? (W, A, S, D, status, map, toggle, scout, inventory, use (1~3), leave)");
 			String move = in.nextLine();
 			if(validMove(move, player1, board.room))
 			{
@@ -175,6 +176,7 @@ public class Runner {
 	 */
 	public static boolean validMove(String move, Person p, Room[][] map)
 	{
+		String copy = move;
 		move = move.toLowerCase().trim();
 		switch (move) {
 			case "w":
@@ -253,6 +255,41 @@ public class Runner {
 					} else {
 						toggle = true;
 						System.out.println("The map will now be displayed after every move.");
+					}
+					return true;
+				}
+			case "inventory":
+				{
+					player1.printInventory();
+					return true;
+				}
+			case "use 1":
+				{
+					if(player1.inventory[0]==null){
+						System.out.println("Please choose a valid item!");
+					} else {
+						System.out.println("You used a(n) " + player1.inventory[0] + "!");
+						player1.use(0);
+					}
+					return true;
+				}
+			case "use 2":
+				{
+					if(player1.inventory[1]==null){
+						System.out.println("Please choose a valid item!");
+					} else {
+						System.out.println("You used a(n) " + player1.inventory[1] + "!");
+						player1.use(1);
+					}
+					return true;
+				}
+			case "use 3":
+				{
+					if(player1.inventory[2]==null){
+						System.out.println("Please choose a valid item!");
+					} else {
+						System.out.println("You used a(n) " + player1.inventory[2] + "!");
+						player1.use(2);
 					}
 					return true;
 				}

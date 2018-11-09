@@ -2,6 +2,7 @@
 package People;
 
 import Game.Runner;
+import Items.Items;
 
 /**
  * Person represents the player as they move through the game.
@@ -9,6 +10,7 @@ import Game.Runner;
 public class Person {
 	int xLoc, yLoc, scout, HP, hp;
 	int frag = 0;
+	public Items[] inventory = new Items[3];
 
 
 	public int getxLoc() {
@@ -60,6 +62,32 @@ public class Person {
 
 	public int getMaxHP(){
 		return HP;
+	}
+
+	public void printInventory(){
+		String temp="";
+		for(int i=0;i<inventory.length;i++){
+			if(inventory[i]==null){
+				temp+="[ Empty ]";
+			} else {
+				temp+="[ " + inventory[i] + " ]";
+			}
+		}
+		System.out.println(temp);
+	}
+
+	public void addItem(Items item){
+		for(int i=0;i<inventory.length;i++){
+			if(inventory[i]==null){
+				inventory[i] = item;
+				break;
+			}
+		}
+	}
+
+	public void use(int num){
+		inventory[num].use(this);
+		inventory[num] = null;
 	}
 
 	public Person (int xLoc, int yLoc, int scout, int HP)

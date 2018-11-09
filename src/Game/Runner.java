@@ -2,6 +2,7 @@
 package Game;
 
 import Items.Elixir;
+import Items.Scroll;
 import People.Person;
 import Rooms.*;
 
@@ -145,6 +146,7 @@ public class Runner {
 		board.room[0][0].enterRoom(player1);
 		updateMap();
 		player1.addItem(new Elixir());
+		player1.addItem(new Scroll());
 
 		while(gameOn)
 		{
@@ -306,6 +308,7 @@ public class Runner {
 	{
 		gameOn = false;
 		System.out.println("Results: ");
+		System.out.println(player1.getFrag() + " / " + goal);
 		if(player1.getFrag()<goal) {
 			if (player1.getHP() < 1) {
 				System.out.println("You did not manage to finish your mission, and the forest remains infested for generations. Hundreds of other adventurers follows your fate...");
@@ -419,7 +422,7 @@ public class Runner {
 
     public static void flood(){
 		int count = 0;
-		for (int i = 0; i < (int)(area*.5);i++) {
+		for (int i = 0; i < (int)(area*.35);i++) {
 			int x = (int) (Math.random() * board.room.length);
 			int y = (int) (Math.random() * board.room[0].length);
 			if(board.room[x][y] instanceof GoblinRoom){

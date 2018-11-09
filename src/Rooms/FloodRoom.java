@@ -18,7 +18,7 @@ public class FloodRoom extends Room {
 	public void enterRoom(Person x)
 	{
 		int hp = (int)(x.getHP()*.25)+1;
-		System.out.println("This area is flooded! You trip and lose " + hp + " HP.");
+		System.out.println("This area is flooded! You trip and lose " + hp + " HP (25% of current hp).");
 		occupant = x;
 		x.setxLoc(this.xLoc);
 		x.setyLoc(this.yLoc);

@@ -17,7 +17,7 @@ public class AmbushRoom extends Room {
 	 */
 	public void enterRoom(Person x)
 	{
-		int random = (int)(Math.random()*x.getMaxHP())+1;
+		int random = (int)(Math.random()*(x.getMaxHP()*.2))+1;
 		System.out.println("You walk into an ambush! A group of small goblins attack you and you lost " + random + " HP.");
 		occupant = x;
 		x.setxLoc(this.xLoc);

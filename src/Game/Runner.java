@@ -25,8 +25,10 @@ public class Runner {
 
 	public static void main(String[] args)
 	{
-		System.out.println("You are an adventurer on a quest to cleanse a nearby forest of a goblin infestation. Depending on the difficulty, you must slain a certain amount of goblins in order to win.");
-		System.out.println("You may type leave to end the game whenever.");
+		System.out.println("You are an adventurer on a quest to cleanse a nearby forest of a goblin infestation. All your stats are determined by map size.");
+		System.out.println("You may type leave to end the game whenever. The ending will be determined by your stats.");
+		System.out.println("Elixirs heal you for 20% of your max hp, and scrolls will flood the map (costs 50% of max hp to use).");
+		System.out.println("If your inventory is full and you receive an item, the said item will be lost.");
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("Welcome, what difficulty would you like to play in? (easy/medium/hard/custom)");
